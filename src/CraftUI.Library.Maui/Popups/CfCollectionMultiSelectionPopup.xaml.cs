@@ -3,7 +3,7 @@ using CraftUI.Library.Maui.Common.Helpers;
 using CraftUI.Library.Maui.Converters;
 using CraftUI.Library.Maui.MarkupExtensions;
 
-namespace CraftUI.Library.Maui.Controls.Popups;
+namespace CraftUI.Library.Maui.Popups;
 
 public partial class CfCollectionMultiSelectionPopup
 {
@@ -45,7 +45,7 @@ public partial class CfCollectionMultiSelectionPopup
         InitializeComponent();
 
         var tapped = new TapGestureRecognizer();
-        tapped.Tapped += (_, _) => Close();
+        tapped.Tapped += (_, _) => CloseAsync();
         CloseImage.GestureRecognizers.Add(tapped);
     }
 

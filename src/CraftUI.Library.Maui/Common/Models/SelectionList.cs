@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using CraftUI.Library.Maui.Controls;
 
-namespace CraftUI.Library.Maui.Common;
+namespace CraftUI.Library.Maui.Common.Models;
 
 internal class SelectionList : IList<object>
 {

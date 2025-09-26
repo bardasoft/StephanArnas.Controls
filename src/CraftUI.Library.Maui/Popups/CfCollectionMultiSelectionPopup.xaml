@@ -3,13 +3,13 @@
 <toolkit:Popup
     HorizontalOptions="Fill"
     VerticalOptions="End"
-    x:Class="CraftUI.Library.Maui.Controls.Popups.CfCollectionMultiSelectionPopup"
+    x:Class="CraftUI.Library.Maui.Popups.CfCollectionMultiSelectionPopup"
     x:Name="This"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:markup="clr-namespace:CraftUI.Library.Maui.MarkupExtensions"
-    xmlns:controls="clr-namespace:CraftUI.Library.Maui.Controls.Popups">
+    xmlns:controls="clr-namespace:CraftUI.Library.Maui.Popups">
     
     <toolkit:Popup.Resources>
         <Style TargetType="Grid" x:Key="BottomPopupRootGrid">

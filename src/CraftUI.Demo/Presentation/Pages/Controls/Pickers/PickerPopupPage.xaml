@@ -7,7 +7,7 @@
     xmlns:page="clr-namespace:CraftUI.Demo.Presentation.Pages.Controls.Pickers"
     xmlns:controls="clr-namespace:CraftUI.Library.Maui.Controls;assembly=CraftUI.Library.Maui"
     Title="Picker with Popup Demo"
-    x:DataType="page:PickerPageViewModel"
+    x:DataType="page:PickerPage2ViewModel"
     x:Class="CraftUI.Demo.Presentation.Pages.Controls.Pickers.PickerPopupPage">
 
     <Grid RowDefinitions="*,Auto" >
@@ -18,27 +18,26 @@
                 
                 <controls:CfPickerPopup
                     Label="Country"
-                    
                     SelectedItem="{Binding Country}"
                     ItemsSource="{Binding CountriesLoader.Result}" 
-                    ItemDisplay="{x:Static page:PickerPageViewModel.CountryDisplayProperty}"
-                    TapCommand="{Binding CountrySelectedCommand}"
-                    IsLoading="{Binding CountriesLoader.ShowLoader}"/>
+                    SelectionChangedCommand="{Binding CountrySelectedCommand}"
+                    IsLoading="{Binding CountriesLoader.ShowLoader}"
+                    IsSearchVisible="True"/>
                 
                 <controls:CfPickerPopup
                     Label="City"
                     SelectedItem="{Binding City}"
                     ItemsSource="{Binding CitiesLoader.Result}"
-                    ItemDisplay="{x:Static page:PickerPageViewModel.CityDisplayProperty}"
                     IsLoading="{Binding CitiesLoader.ShowLoader}" />
 
             </VerticalStackLayout>
         </ScrollView>
         
         <VerticalStackLayout Grid.Row="1" Style="{StaticResource BottomElementVerticalStackLayout}">
-            <Button Command="{Binding ResetCommand}" 
-                    Style="{StaticResource FilledPrimaryButton}" 
-                    Text="Reset" />
+            <Button 
+                Command="{Binding ResetCommand}" 
+                Style="{StaticResource FilledPrimaryButton}" 
+                Text="Reset" />
         </VerticalStackLayout>
 
     </Grid>

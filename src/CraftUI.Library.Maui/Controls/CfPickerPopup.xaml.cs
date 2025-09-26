@@ -1,118 +1,89 @@
-using System.Collections;
 using System.Windows.Input;
-using CommunityToolkit.Maui.Views;
-using CraftUI.Library.Maui.Common.Extensions;
-using CraftUI.Library.Maui.Controls.Popups;
+using CommunityToolkit.Maui;
+using CraftUI.Library.Maui.Common;
+using CraftUI.Library.Maui.Common.Models;
+using CraftUI.Library.Maui.Popups;
+using CraftUI.Library.Maui.Popups.Settings;
 
 namespace CraftUI.Library.Maui.Controls;
 
 public partial class CfPickerPopup
 {
-    private CfCollectionSingleSelectionPopup? _collectionPopup;
-    private readonly TapGestureRecognizer _tapGestureRecognizer;
-    
-    public static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(CfPickerPopup));
-    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(CfPickerPopup), propertyChanged: SelectedItemChanged, defaultBindingMode: BindingMode.TwoWay);
-    public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(CfPickerPopup), defaultBindingMode: BindingMode.TwoWay);
-    public static readonly BindableProperty ItemDisplayProperty = BindableProperty.Create(nameof(ItemDisplay), typeof(string), typeof(CfPickerPopup), defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty DefaultValueProperty = BindableProperty.Create(nameof(DefaultValue), typeof(string), typeof(CfPickerPopup), propertyChanged: DefaultValueChanged, defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(CfPickerPopup), propertyChanged: ItemsSourceChanged, defaultBindingMode: BindingMode.OneWay);
-
-    public IList? ItemsSource
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(List<DisplayValueItem>), typeof(CfPickerPopup), defaultValue: null);
+    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(DisplayValueItem), typeof(CfPickerPopup), defaultValue: null, defaultBindingMode: BindingMode.TwoWay, propertyChanged: OnSelectedItemChanged);
+    public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value), typeof(string), typeof(CfPickerPopup), defaultBindingMode: BindingMode.TwoWay);
+    public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(CfPickerPopup));
+    public static readonly BindableProperty IsSearchVisibleProperty = BindableProperty.Create(nameof(IsSearchVisible), typeof(bool), typeof(CfPickerPopup), defaultBindingMode: BindingMode.OneWay);
+   
+    public List<DisplayValueItem>? ItemsSource
     {
-        get => (IList?)GetValue(ItemsSourceProperty);
+        get => (List<DisplayValueItem>?)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public object? SelectedItem
+    public DisplayValueItem? SelectedItem
     {
-        get => GetValue(SelectedItemProperty);
+        get => (DisplayValueItem?)GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
-
-    public ICommand? TapCommand
+    
+    public string? Value
     {
-        get => (ICommand?)GetValue(TapCommandProperty);
-        set => SetValue(TapCommandProperty, value);
+        get => (string?)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
     }
 
-    public string ItemDisplay
+    public ICommand? SelectionChangedCommand
     {
-        get => (string)GetValue(ItemDisplayProperty);
-        set => SetValue(ItemDisplayProperty, value);
+        get => (ICommand?)GetValue(SelectionChangedCommandProperty);
+        set => SetValue(SelectionChangedCommandProperty, value);
     }
-
-    public string DefaultValue
+    
+    public bool IsSearchVisible
     {
-        get => (string)GetValue(DefaultValueProperty);
-        set => SetValue(DefaultValueProperty, value);
-    }
-
-    public string Title
-    {
-        get => (string)GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
+        get => (bool)GetValue(IsSearchVisibleProperty);
+        set => SetValue(IsSearchVisibleProperty, value);
     }
 
     public CfPickerPopup()
     {
         InitializeComponent();
-        
-        _tapGestureRecognizer = new TapGestureRecognizer();
-        _tapGestureRecognizer.Tapped += OnTapped;
-
-        GestureRecognizers.Add(_tapGestureRecognizer);
     }
-    
-    private void OnTapped(object? sender, EventArgs e)
-    {
-        _collectionPopup = new CfCollectionSingleSelectionPopup
-        {
-            BindingContext = this,
-            Title = !string.IsNullOrEmpty(Title) ? Title : Label,
-            ItemsSource = ItemsSource,
-            SelectedItem = SelectedItem,
-            ItemDisplay = ItemDisplay
-        };
 
-        _collectionPopup.SetBinding(CfCollectionSingleSelectionPopup.SelectedItemProperty, path: nameof(SelectedItem));
-        _collectionPopup.SetBinding(CfCollectionSingleSelectionPopup.ItemsSourceProperty, path: nameof(ItemsSource));
-
-        Shell.Current.ShowPopup(_collectionPopup);
-    }
-    
-    protected override void OnBindingContextChanged()
-    {
-        base.OnBindingContextChanged();
-
-        ActionIconSource ??= "chevron_bottom.png";
-        ActionIconCommand ??= new Command(() => OnTapped(null, EventArgs.Empty));
-    }
-    
-    private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerPopup)bindable).UpdateSelectedItemView();
-    private static void DefaultValueChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerPopup)bindable).UpdateDefaultValueView();
-    private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerPopup)bindable).UpdateItemsSourceView();
+    private static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerPopup) bindable).UpdateSelectedItemView();
 
     private void UpdateSelectedItemView()
     {
-        TapCommand?.Execute(SelectedItem);
-        Element.Text = SelectedItem?.GetPropertyValue<string>(ItemDisplay) ?? string.Empty;
+        Value = SelectedItem?.DisplayValue;
     }
-
-    private void UpdateDefaultValueView()
+    
+    private async void OpenSelectionPopup_OnTapped(object? sender, TappedEventArgs e)
     {
-        Element.Text = DefaultValue;
-    }
+        var popupService = Application.Current?.Handler?.MauiContext?.Services.GetService<IPopupService>();
+        ArgumentNullException.ThrowIfNull(popupService);
 
-    private async void UpdateItemsSourceView()
-    {
-        if (_collectionPopup?.ItemsSource?.Count > 0 && DeviceInfo.Platform == DevicePlatform.iOS)
+        var queryAttributes = new Dictionary<string, object>
         {
-            // On iOS, we need to close the popup before showing a new one to avoid issues with the collection view.
-            await _collectionPopup.CloseAsync().ContinueWith(_ => 
-            {
-                MainThread.BeginInvokeOnMainThread(() => OnTapped(null, EventArgs.Empty));
-            });
+            [nameof(CfCollectionSingleSelectionPopupViewModel.Title)] = Label ?? "",
+            [nameof(CfCollectionSingleSelectionPopupViewModel.ItemsSource)] = ItemsSource ?? [],
+            [nameof(CfCollectionSingleSelectionPopupViewModel.IsSearchVisible)] = IsSearchVisible
+        };
+        
+        if (SelectedItem is not null)
+        {
+            queryAttributes[nameof(CfCollectionSingleSelectionPopupViewModel.SelectedItem)] = SelectedItem;
+        }
+
+        var popupResult = await popupService.ShowPopupAsync<CfCollectionSingleSelectionPopupViewModel, DisplayValueItem>(
+            Shell.Current, 
+            options: new BottomSelectionPopupOptionsSettings(),
+            shellParameters: queryAttributes);
+
+        if (popupResult is { WasDismissedByTappingOutsideOfPopup: false, Result: not null })
+        {
+            SelectedItem = popupResult.Result;
+            SelectionChangedCommand?.Execute(SelectedItem);
+            Value = popupResult.Result.DisplayValue;
         }
     }
 }

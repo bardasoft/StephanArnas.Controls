@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Grid 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CraftUI.Library.Maui.Popups.Templates.HeaderTemplatePopup"
+    RowDefinitions="Auto,Auto"
+    ColumnDefinitions="*,Auto"
+    x:Name="Root">
+
+    <Grid.Resources>
+        <Style TargetType="Label" x:Key="TitleSelectionPopupLabel">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+        </Style>
+        <Style TargetType="Image" x:Key="CloseSelectionPopupImage">
+            <Setter Property="WidthRequest" Value="26" />
+            <Setter Property="HeightRequest" Value="26" />
+            <Setter Property="HorizontalOptions" Value="End" />
+        </Style>
+        <Style TargetType="Rectangle" x:Key="BreakLineSelectionPopupRectangle">
+            <Setter Property="Fill" Value="{DynamicResource Gray100}" />
+            <Setter Property="HeightRequest" Value="2" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+        </Style>
+    </Grid.Resources>
+
+    <Label 
+        Grid.Row="0" Grid.Column="0"
+        Margin="16,16,0,16"
+        Text="{Binding Title, Source={x:Reference Root}}"
+        Style="{StaticResource TitleSelectionPopupLabel}"
+        LineBreakMode="TailTruncation"/>
+    
+    <Image
+        Grid.Row="0" Grid.Column="1"
+        Margin="0,16,16,16"
+        Style="{StaticResource CloseSelectionPopupImage}"
+        Source="close.png">
+        <Image.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding CloseCommand, Source={x:Reference Root}}" />
+        </Image.GestureRecognizers>
+    </Image>
+
+    <Rectangle 
+        Grid.Row="1" Grid.ColumnSpan="2"
+        Style="{StaticResource BreakLineSelectionPopupRectangle}" />
+
+</Grid>

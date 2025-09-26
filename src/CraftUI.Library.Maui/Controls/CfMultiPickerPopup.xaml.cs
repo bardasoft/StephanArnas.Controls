@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Extensions;
 using CraftUI.Library.Maui.Common;
 using CraftUI.Library.Maui.Common.Extensions;
-using CraftUI.Library.Maui.Controls.Popups;
-using Microsoft.Maui.Platform;
+using CraftUI.Library.Maui.Common.Models;
+using CraftUI.Library.Maui.Popups;
 
 namespace CraftUI.Library.Maui.Controls;
 
@@ -174,6 +174,6 @@ public partial class CfMultiPickerPopup
         _collectionPopup.SetBinding(CfCollectionMultiSelectionPopup.ItemsSourceProperty, path: nameof(ItemsSource));
         _collectionPopup.SetBinding(CfCollectionMultiSelectionPopup.SelectedItemsProperty, path: nameof(SelectedItems));
 
-        Shell.Current.ShowPopup(_collectionPopup);
+        Shell.Current.ShowPopupAsync(_collectionPopup);
     }
 }

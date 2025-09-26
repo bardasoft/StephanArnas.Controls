@@ -28,21 +28,21 @@ public partial class LabelBase
         set => SetValue(IsRequiredProperty, value);
     }
 
-    public string Label
+    public string? Label
     {
-        get => (string)GetValue(LabelProperty);
+        get => (string?)GetValue(LabelProperty);
         set => SetValue(LabelProperty, value);
     }
 
-    public string Info
+    public string? Info
     {
-        get => (string)GetValue(InfoProperty);
+        get => (string?)GetValue(InfoProperty);
         set => SetValue(InfoProperty, value);
     }
 
-    public string Error
+    public string? Error
     {
-        get => (string)GetValue(ErrorProperty);
+        get => (string?)GetValue(ErrorProperty);
         set => SetValue(ErrorProperty, value);
     }
 
@@ -90,19 +90,19 @@ public partial class LabelBase
 
     private void UpdateLabelView()
     {
-        LabelLabel.Text = Label;
+        LabelLabel.Text = Label ?? "";
         LabelLabel.IsVisible = !string.IsNullOrEmpty(Label);
     }
     
     private void UpdateInfoView()
     {
-        InfoLabel.Text = Info;
+        InfoLabel.Text = Info ?? "";
         InfoLabel.IsVisible = !string.IsNullOrEmpty(Info);
     }
 
     private void UpdateErrorView()
     {
-        ErrorLabel.Text = Error;
+        ErrorLabel.Text = Error ?? "";
         ErrorLabel.IsVisible = !string.IsNullOrEmpty(Error);
         InvalidateSurfaceForCanvasView();
     }
