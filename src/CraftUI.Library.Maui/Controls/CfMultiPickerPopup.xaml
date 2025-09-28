@@ -5,18 +5,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:common="clr-namespace:CraftUI.Library.Maui.Common"
     x:Class="CraftUI.Library.Maui.Controls.CfMultiPickerPopup"
-    x:Name="Root">
+    xmlns:model="clr-namespace:CraftUI.Library.Maui.Common.Models"
+    x:Name="CfMultiPickerPopupRoot">
+    
+    <common:LabelBase.GestureRecognizers>
+        <TapGestureRecognizer Tapped="OpenSelectionPopup_OnTapped"/>
+    </common:LabelBase.GestureRecognizers>
     
     <common:LabelBase.View>
+        
         <FlexLayout
             Direction="Row"
             Wrap="Wrap"
             Margin="8,8,8,0"
             MinimumHeightRequest="32"
-            BindingContext="{x:Reference Name=Root}"
-            BindableLayout.ItemsSource="{Binding SelectedStrings, Mode=TwoWay}">
+            BindingContext="{x:Reference Name=CfMultiPickerPopupRoot}"
+            BindableLayout.ItemsSource="{Binding SelectedItems, Mode=TwoWay}">
             <BindableLayout.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="model:DisplayValueItem">
                     <Border
                         BackgroundColor="{StaticResource Gray100}"
                         StrokeShape="RoundRectangle 12"
@@ -24,13 +30,15 @@
                         StrokeThickness="0"
                         Margin="0,0,6,8">
                         <Label
-                            Text="{Binding .}"
+                            Text="{Binding DisplayValue}"
                             TextColor="{StaticResource Gray900}"
                             FontSize="14"
                             VerticalOptions="Center"/>
                     </Border>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
-        </FlexLayout>    
+        </FlexLayout>
+        
     </common:LabelBase.View>
+    
 </common:LabelBase>

@@ -1,76 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<toolkit:Popup
+<Grid
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CraftUI.Library.Maui.Popups.CfCollectionMultiSelectionPopup"
+    xmlns:markup="clr-namespace:CraftUI.Library.Maui.MarkupExtensions"
+    xmlns:popups="clr-namespace:CraftUI.Library.Maui.Popups"
+    xmlns:template="clr-namespace:CraftUI.Library.Maui.Popups.Templates"
+    xmlns:control="clr-namespace:CraftUI.Library.Maui.Controls"
+    xmlns:model="clr-namespace:CraftUI.Library.Maui.Common.Models"
     HorizontalOptions="Fill"
     VerticalOptions="End"
-    x:Class="CraftUI.Library.Maui.Popups.CfCollectionMultiSelectionPopup"
-    x:Name="This"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:markup="clr-namespace:CraftUI.Library.Maui.MarkupExtensions"
-    xmlns:controls="clr-namespace:CraftUI.Library.Maui.Popups">
+    RowDefinitions="Auto,Auto,*"
+    MinimumWidthRequest="{x:Static markup:GutterSystem.WidthScreen}"
+    BackgroundColor="{AppThemeBinding 
+    Light={StaticResource PageBackground}, 
+    Dark={StaticResource PageBackgroundDark}}"
+    x:DataType="popups:CfCollectionMultiSelectionPopupViewModel">
+
+    <Grid.Resources>
+        <Style x:Key="CollectionViewItemSelectionPopupGrid" TargetType="Grid">
+            <Setter Property="Padding" Value="16,14" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="VerticalOptions" Value="Fill" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding
+                                    Light={StaticResource Gray100}, 
+                                    Dark={StaticResource Gray900}}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </Grid.Resources>
+        
+    <template:HeaderTemplatePopup
+        Title="{Binding Title}"
+        CloseCommand="{Binding CloseCommand}" />
+
+    <control:CfSearch 
+        Grid.Row="1"
+        Search="{Binding Search}"
+        SearchUpdatedCommand="{Binding SearchUpdatedCommand}"
+        IsVisible="{Binding IsSearchVisible}" />
     
-    <toolkit:Popup.Resources>
-        <Style TargetType="Grid" x:Key="BottomPopupRootGrid">
-            <Setter Property="MinimumWidthRequest" Value="{x:Static markup:GutterSystem.WidthScreen}" />
-            <Setter Property="BackgroundColor" Value="{AppThemeBinding 
-                Light={StaticResource PageBackground}, 
-                Dark={StaticResource PageBackgroundDark}}" />
-        </Style>
-        <Style TargetType="Image" x:Key="ClosePopupImage">
-            <Setter Property="WidthRequest" Value="26" />
-            <Setter Property="HeightRequest" Value="26" />
-            <Setter Property="HorizontalOptions" Value="End" />
-        </Style>
-        <Style TargetType="Label" x:Key="TitlePopupLabel">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="FontAttributes" Value="Bold" />
-            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
-        </Style>
-        <Style TargetType="Rectangle" x:Key="BreakLineRectangle">
-            <Setter Property="Fill" Value="{DynamicResource Gray100}" />
-            <Setter Property="HeightRequest" Value="2" />
-            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
-        </Style>
-    </toolkit:Popup.Resources>
-
-    <Grid
-        BindingContext="{x:Reference This}"
-        RowDefinitions="Auto,Auto"
-        Style="{StaticResource BottomPopupRootGrid}"
-        x:DataType="controls:CfCollectionMultiSelectionPopup">
-        
-        <VerticalStackLayout>
-            <VerticalStackLayout Padding="16">
-                <FlexLayout
-                    AlignItems="Center"
-                    HeightRequest="26"
-                    JustifyContent="SpaceBetween">
-
+    <CollectionView
+        Grid.Row="2"
+        ItemSizingStrategy="MeasureAllItems"
+        ItemsLayout="VerticalList"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill"
+        MaximumHeightRequest="{x:Static markup:GutterSystem.PopupMaxHeightScreen}"
+        ItemsSource="{Binding ItemsSource}"
+        SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
+        SelectionMode="Multiple">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="model:DisplayValueItem">
+                <Grid Style="{StaticResource CollectionViewItemSelectionPopupGrid}">
                     <Label 
-                        Style="{StaticResource TitlePopupLabel}" 
-                        x:Name="TitleLabel" />
-                    
-                    <Image
-                        Style="{StaticResource ClosePopupImage}"
-                        x:Name="CloseImage"
-                        Source="close.png" />
+                        Text="{Binding DisplayValue}"
+                        FontSize="16" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 
-                </FlexLayout>
-            </VerticalStackLayout>
-            <Rectangle Style="{StaticResource BreakLineRectangle}" />
-        </VerticalStackLayout>
-
-        <CollectionView
-            Grid.Row="1"
-            ItemSizingStrategy="MeasureFirstItem"
-            ItemsLayout="VerticalList"
-            ItemsSource="{Binding ItemsSource}"
-            SelectionMode="Multiple"
-            x:Name="PickerCollectionView">
-        </CollectionView>
-        
-    </Grid>
-
-</toolkit:Popup>
+</Grid>

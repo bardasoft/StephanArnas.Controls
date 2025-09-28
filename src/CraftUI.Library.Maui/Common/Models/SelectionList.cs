@@ -4,18 +4,18 @@ using CraftUI.Library.Maui.Controls;
 
 namespace CraftUI.Library.Maui.Common.Models;
 
-internal class SelectionList : IList<object>
+internal class SelectionList : IList<DisplayValueItem>
 {
-	private static readonly IList<object> SEmpty = new List<object>(0);
+	private static readonly IList<DisplayValueItem> SEmpty = new List<DisplayValueItem>(0);
 	private readonly CfMultiPickerPopup _selectableItemsView;
-	private readonly IList<object> _internal;
-	private IList<object> _shadow;
+	private readonly IList<DisplayValueItem> _internal;
+	private IList<DisplayValueItem> _shadow;
 	private bool _externalChange;
 
-	public SelectionList(CfMultiPickerPopup selectableItemsView, IList<object>? items = null)
+	public SelectionList(CfMultiPickerPopup selectableItemsView, IList<DisplayValueItem>? items = null)
 	{
 		_selectableItemsView = selectableItemsView ?? throw new ArgumentNullException(nameof(selectableItemsView));
-		_internal = items ?? new List<object>();
+		_internal = items ?? new List<DisplayValueItem>();
 		_shadow = Copy();
 
 		if (items is INotifyCollectionChanged incc)
@@ -24,13 +24,13 @@ internal class SelectionList : IList<object>
 		}
 	}
 
-	public object this[int index] { get => _internal[index]; set => _internal[index] = value; }
+	public DisplayValueItem this[int index] { get => _internal[index]; set => _internal[index] = value; }
 
 	public int Count => _internal.Count;
 
 	public bool IsReadOnly => false;
 
-	public void Add(object item)
+	public void Add(DisplayValueItem item)
 	{
 		_externalChange = true;
 		_internal.Add(item);
@@ -50,27 +50,27 @@ internal class SelectionList : IList<object>
 		_shadow.Clear();
 	}
 
-	public bool Contains(object item)
+	public bool Contains(DisplayValueItem item)
 	{
 		return _internal.Contains(item);
 	}
 
-	public void CopyTo(object[] array, int arrayIndex)
+	public void CopyTo(DisplayValueItem[] array, int arrayIndex)
 	{
 		_internal.CopyTo(array, arrayIndex);
 	}
 
-	public IEnumerator<object> GetEnumerator()
+	public IEnumerator<DisplayValueItem> GetEnumerator()
 	{
 		return _internal.GetEnumerator();
 	}
 
-	public int IndexOf(object item)
+	public int IndexOf(DisplayValueItem item)
 	{
 		return _internal.IndexOf(item);
 	}
 
-	public void Insert(int index, object item)
+	public void Insert(int index, DisplayValueItem item)
 	{
 		_externalChange = true;
 		_internal.Insert(index, item);
@@ -80,7 +80,7 @@ internal class SelectionList : IList<object>
 		_shadow.Insert(index, item);
 	}
 
-	public bool Remove(object item)
+	public bool Remove(DisplayValueItem item)
 	{
 		_externalChange = true;
 		var removed = _internal.Remove(item);
@@ -105,9 +105,9 @@ internal class SelectionList : IList<object>
 		_shadow.RemoveAt(index);
 	}
 
-	List<object> Copy()
+	List<DisplayValueItem> Copy()
 	{
-		var items = new List<object>();
+		var items = new List<DisplayValueItem>();
 		for (int n = 0; n < _internal.Count; n++)
 		{
 			items.Add(_internal[n]);

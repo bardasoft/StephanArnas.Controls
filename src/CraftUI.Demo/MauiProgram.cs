@@ -47,7 +47,7 @@ public static class MauiProgram
             .AddTransientWithShellRoute<EntryPage, EntryPageViewModel>(RouteConstants.EntryPage)
             .AddTransientWithShellRoute<DatePickerPage, DatePickerPageViewModel>(RouteConstants.DatePickerPage)
             .AddTransientWithShellRoute<PickerPage, PickerPageViewModel>(RouteConstants.PickerPage)
-            .AddTransientWithShellRoute<PickerPopupPage, PickerPage2ViewModel>(RouteConstants.PickerPopupPage)
+            .AddTransientWithShellRoute<PickerPopupPage, PickerPageViewModel>(RouteConstants.PickerPopupPage)
             .AddTransientWithShellRoute<MultiPickerPopupPage, PickerPageViewModel>(RouteConstants.MultiPickerPopupPage)
             .AddTransientWithShellRoute<ProgressBarPage, ProgressBarPageViewModel>(RouteConstants.ProgressBarPage);
         

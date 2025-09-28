@@ -57,16 +57,6 @@ public partial class CfCollectionMultiSelectionPopupViewModel(IPopupService popu
     }
 
     [RelayCommand]
-    private async Task ItemSelected()
-    {
-        if (!_isInitialized)
-        {
-            await Task.Delay(100);
-            await PopupService.ClosePopupAsync(Shell.Current, SelectedItems);
-        }
-    }
-
-    [RelayCommand]
     private void SearchUpdated()
     {
         if (!_isInitialized && _items is not null)

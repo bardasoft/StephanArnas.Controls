@@ -20,7 +20,6 @@
                     Label="Country"
                     SelectedItem="{Binding Country}"
                     ItemsSource="{Binding CountriesLoader.Result}" 
-                    ItemDisplay="{x:Static page:PickerPageViewModel.CountryDisplayProperty}"
                     SelectionChangedCommand="{Binding CountrySelectedCommand}"
                     IsLoading="{Binding CountriesLoader.ShowLoader}" />
                 
@@ -28,8 +27,14 @@
                     Label="City"
                     SelectedItem="{Binding City}"
                     ItemsSource="{Binding CitiesLoader.Result}"
-                    ItemDisplay="{x:Static page:PickerPageViewModel.CityDisplayProperty}"
-                    IsLoading="{Binding CitiesLoader.ShowLoader}" />
+                    IsLoading="{Binding CitiesLoader.ShowLoader}" />   
+                
+                <controls:CfPicker
+                    Label="City (disabled)"
+                    SelectedItem="{Binding City}"
+                    ItemsSource="{Binding CitiesLoader.Result}"
+                    IsLoading="{Binding CitiesLoader.ShowLoader}" 
+                    IsEnabled="False"/>
                 
             </VerticalStackLayout>
         </ScrollView>

@@ -6,7 +6,7 @@ using CraftUI.Demo.Application.Common.Interfaces.Infrastructure;
 using CraftUI.Demo.Application.Common.Interfaces.Services;
 using CraftUI.Demo.Application.Countries;
 using CraftUI.Demo.Presentation.Common;
-using CraftUI.Library.Maui.Common.Extensions;
+using CraftUI.Library.Maui.Common.Models;
 using Microsoft.Extensions.Logging;
 using Sharpnado.TaskLoaderView;
 
@@ -20,19 +20,16 @@ public partial class PickerPageViewModel : ViewModelBase
     private readonly IDisplayService _displayService;
     
     [ObservableProperty]
-    private CountryVm? _country;
+    private DisplayValueItem? _country;
     
     [ObservableProperty]
-    private CityVm? _city;
+    private DisplayValueItem? _city;
 
     [ObservableProperty]
-    private ObservableCollection<object> _selectedCountries;
+    private ObservableCollection<DisplayValueItem> _selectedCountries;
     
-    public static string CountryDisplayProperty => nameof(CountryVm.Name);
-    public static string CityDisplayProperty => nameof(CityVm.Name);
-
-    public TaskLoaderNotifier<IReadOnlyCollection<CountryVm>> CountriesLoader { get; } = new();
-    public TaskLoaderNotifier<IReadOnlyCollection<CityVm>> CitiesLoader { get; } = new();
+    public TaskLoaderNotifier<IList<DisplayValueItem>> CountriesLoader { get; } = new();
+    public TaskLoaderNotifier<IList<DisplayValueItem>> CitiesLoader { get; } = new();
 
     public PickerPageViewModel(
         ILogger<PickerPageViewModel> logger,
@@ -45,9 +42,9 @@ public partial class PickerPageViewModel : ViewModelBase
         _countryService = countryService;
         _displayService = displayService;
 
-        SelectedCountries = new ObservableCollection<object>();
+        SelectedCountries = new ObservableCollection<DisplayValueItem>();
 
-        _logger.LogInformation("Building LabelPageViewModel");
+        _logger.LogInformation("Building PickerPageViewModel");
     }
     
     public override void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -76,29 +73,30 @@ public partial class PickerPageViewModel : ViewModelBase
         base.OnDisappearing();
     }
     
-    private async Task<IReadOnlyCollection<CountryVm>> LoadCountriesAsync(CancellationToken cancellationToken = default)
+    private async Task<IList<DisplayValueItem>> LoadCountriesAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("LoadCountriesAsync()");
 
         var domainResult = await _countryService.GetAllCountriesAsync(cancellationToken);
-        _logger.LogInformation("Items loaded: {Count}", domainResult.Count);
+        _logger.LogInformation("{Count} {ItemType} items loaded", domainResult.Count, nameof(CountryVm));
         
-        return domainResult;
+        return domainResult.Select(x => new DisplayValueItem(x.Name, x.Id.ToString(), x)).ToList();
     }
 
-    private async Task<IReadOnlyCollection<CityVm>> LoadCitiesByCountry(CancellationToken cancellationToken = default)
+    private async Task<IList<DisplayValueItem>> LoadCitiesByCountry(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("LoadCitiesByCountry()");
 
         if (Country is null)
         {
-            return Array.Empty<CityVm>();
+            return Array.Empty<DisplayValueItem>();
         }
         
-        var domainResult = await _cityService.GetCitiesAsync(Country.Id, cancellationToken);
-        _logger.LogInformation("Items loaded: {Count}", domainResult.Count);
+        var countryId = int.Parse(Country.Value);
+        var domainResult = await _cityService.GetCitiesAsync(countryId, cancellationToken);
+        _logger.LogInformation("{Count} {ItemType} items loaded", domainResult.Count, nameof(CityVm));
         
-        return domainResult;
+        return domainResult.Select(x => new DisplayValueItem(x.Name, x.Id.ToString(), x)).ToList();
     }
 
     [RelayCommand]
@@ -133,7 +131,7 @@ public partial class PickerPageViewModel : ViewModelBase
         
         await _displayService.ShowPopupAsync(
             title: "Selected Countries",
-            message: SelectedCountries.Count == 0 ? "No countries selected." : string.Join(", ", SelectedCountries.Select(c => c.GetDisplayString(CountryDisplayProperty))),
+            message: SelectedCountries.Count == 0 ? "No countries selected." : string.Join(", ", SelectedCountries.Select(c => c.DisplayValue)),
             accept: "OK");
     }
 

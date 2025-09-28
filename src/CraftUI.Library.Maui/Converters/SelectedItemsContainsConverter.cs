@@ -16,8 +16,10 @@ public class SelectedItemsContainsConverter : IValueConverter
         {
             return false;
         }
-        
-        return popup.SelectedItems?.Contains(value) == true;
+
+        return true;
+
+        //return popup.SelectedItems?.Contains(value) == true;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

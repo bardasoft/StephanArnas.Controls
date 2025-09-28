@@ -28,4 +28,5 @@
             Style="{StaticResource LabelLabel}">
         </Label>
     </common:LabelBase.View>
+    
 </common:LabelBase>
