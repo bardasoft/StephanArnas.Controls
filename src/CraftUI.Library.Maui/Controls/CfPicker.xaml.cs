@@ -39,26 +39,16 @@ public partial class CfPicker
     private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPicker)bindable).UpdateItemsSourceView();
     private static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPicker)bindable).OnSelectedItemChanged();
 
-    public void UpdateItemsSourceView()
+    public async void UpdateItemsSourceView()
     {
 #if ANDROID
         var wasOpen = Element.IsFocused;
         if (wasOpen)
         {
             // Rebuild the dialog content with the new ItemsSource.
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                try
-                {
-                    Element.Unfocus();
-                    await Task.Delay(50); // small delay to let the platform tear down the popup
-                    Element.Focus();      // re-open with fresh data
-                }
-                catch
-                {
-                    // Ignore if anything goes wrong, at least ItemsSource is updated
-                }
-            });
+            Element.Unfocus();
+            await Task.Delay(50); // small delay to let the platform tear down the popup
+            Element.Focus();      // re-open with fresh data
         }
 #endif
     }

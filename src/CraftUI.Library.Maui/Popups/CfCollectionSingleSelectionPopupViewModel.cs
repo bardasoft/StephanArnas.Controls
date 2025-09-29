@@ -61,8 +61,8 @@ public partial class CfCollectionSingleSelectionPopupViewModel(IPopupService pop
     {
         if (!_isInitialized)
         {
-            await Task.Delay(100);
-            await PopupService.ClosePopupAsync(Shell.Current, SelectedItem);
+            await Task.Delay(50);
+            await PopupService.ClosePopupAsync(Shell.Current, SelectedItem).ConfigureAwait(false);
         }
     }
 

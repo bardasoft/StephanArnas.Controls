@@ -28,7 +28,7 @@
       <MauiXaml Update="Controls\CfPicker.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
-      <MauiXaml Update="Controls\CfPickerPopup.xaml">
+      <MauiXaml Update="Controls\CfPickerSingleSelection.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
       <MauiXaml Update="Controls\CfButton.xaml">
@@ -55,7 +55,7 @@
         <DependentUpon>SaPicker.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Controls\CfPickerPopup.xaml.cs">
+      <Compile Update="Controls\CfPickerSingleSelection.xaml.cs">
         <DependentUpon>SaPickerPopup.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>

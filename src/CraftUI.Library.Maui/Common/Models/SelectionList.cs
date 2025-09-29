@@ -7,12 +7,12 @@ namespace CraftUI.Library.Maui.Common.Models;
 internal class SelectionList : IList<DisplayValueItem>
 {
 	private static readonly IList<DisplayValueItem> SEmpty = new List<DisplayValueItem>(0);
-	private readonly CfMultiPickerPopup _selectableItemsView;
+	private readonly CfPickerMultipleSelection _selectableItemsView;
 	private readonly IList<DisplayValueItem> _internal;
 	private IList<DisplayValueItem> _shadow;
 	private bool _externalChange;
 
-	public SelectionList(CfMultiPickerPopup selectableItemsView, IList<DisplayValueItem>? items = null)
+	public SelectionList(CfPickerMultipleSelection selectableItemsView, IList<DisplayValueItem>? items = null)
 	{
 		_selectableItemsView = selectableItemsView ?? throw new ArgumentNullException(nameof(selectableItemsView));
 		_internal = items ?? new List<DisplayValueItem>();
