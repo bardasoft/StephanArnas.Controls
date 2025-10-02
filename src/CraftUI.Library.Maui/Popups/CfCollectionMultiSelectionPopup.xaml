@@ -11,7 +11,7 @@
     xmlns:model="clr-namespace:CraftUI.Library.Maui.Common.Models"
     HorizontalOptions="Fill"
     VerticalOptions="End"
-    RowDefinitions="Auto,Auto,*"
+    RowDefinitions="Auto,Auto,*,Auto"
     MinimumWidthRequest="{x:Static markup:GutterSystem.WidthScreen}"
     BackgroundColor="{AppThemeBinding 
     Light={StaticResource PageBackground}, 
@@ -59,7 +59,7 @@
         VerticalOptions="Fill"
         MaximumHeightRequest="{x:Static markup:GutterSystem.PopupMaxHeightScreen}"
         ItemsSource="{Binding ItemsSource}"
-        SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
+        SelectedItems="{Binding SelectedItemsInternal, Mode=TwoWay}"
         SelectionMode="Multiple">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:DisplayValueItem">
@@ -71,5 +71,10 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
+    
+    <Button 
+        Grid.Row="3"
+        Text="Valider"
+        Command="{Binding ItemSelectedCommand}"/>
 
 </Grid>

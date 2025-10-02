@@ -12,9 +12,28 @@ public partial class CfCollectionMultiSelectionPopupViewModel(IPopupService popu
     private IList<DisplayValueItem>? _items;
     private bool _isInitialized;
     
-    [ObservableProperty] 
-    private IList<DisplayValueItem>? _selectedItems;
+    private ObservableCollection<object> _selectedItemsInternal = [];
+    
+    public ObservableCollection<object> SelectedItemsInternal
+    {
+        get => _selectedItemsInternal;
+        set => SetProperty(ref _selectedItemsInternal, value);
+    }
+    
+    public IList<DisplayValueItem>? SelectedItems
+    {
+        get => _selectedItemsInternal.OfType<DisplayValueItem>().ToList();
+        set
+        {
+            // On réinitialise la collection interne avec les nouveaux éléments
+            _selectedItemsInternal = value != null
+                ? new ObservableCollection<object>(value.Cast<object>())
+                : new ObservableCollection<object>();
 
+            OnPropertyChanged(); // notifie si tu es en MVVM
+        }
+    }
+    
     [ObservableProperty] 
     private IList<DisplayValueItem>? _itemsSource;
 
@@ -30,7 +49,10 @@ public partial class CfCollectionMultiSelectionPopupViewModel(IPopupService popu
         
         if (query.TryGetValue(nameof(SelectedItems), out var selectedItemsObject) && selectedItemsObject is IList<DisplayValueItem> selectedItems)
         {
-            SelectedItems = selectedItems;
+            foreach (var selectedItem in selectedItems)
+            {
+                SelectedItemsInternal.Add(selectedItem);
+            }
         }
         
         if (query.TryGetValue(nameof(ItemsSource), out var itemsSourceObject))
@@ -71,6 +93,15 @@ public partial class CfCollectionMultiSelectionPopupViewModel(IPopupService popu
                     .Where(x => x.DisplayValue.Contains(Search, StringComparison.InvariantCultureIgnoreCase))
                     .ToList();
             }
+        }
+    }
+
+    [RelayCommand]
+    private async Task ItemSelected()
+    {
+        if (!_isInitialized)
+        {
+            await PopupService.ClosePopupAsync(Shell.Current, SelectedItems).ConfigureAwait(false);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui;
 using CraftUI.Library.Maui.Common.Models;
@@ -85,12 +86,12 @@ public partial class CfPickerMultipleSelection
     {
         OnPropertyChanged(SelectedItemsProperty.PropertyName);
         
-        if (_isPopupOpened)
+        /*if (_isPopupOpened)
         {
             // The popup is open, close and open again to refresh the collection
             IPlatformApplication.Current?.Services.GetService<IPopupService>()?.ClosePopupAsync(Shell.Current);
             OpenSelectionPopup_OnTapped(sender: null, e: new TappedEventArgs(null));
-        }
+        }*/
     }
     
     private async void OpenSelectionPopup_OnTapped(object? sender, TappedEventArgs e)
@@ -119,7 +120,7 @@ public partial class CfPickerMultipleSelection
                 shellParameters: queryAttributes)
             .ConfigureAwait(false);
 
-        if (popupResult is { WasDismissedByTappingOutsideOfPopup: false, Result: not null })
+        if (popupResult is { Result: not null })
         {
             SelectedItems = popupResult.Result;
             SelectionChangedCommand?.Execute(SelectedItems);

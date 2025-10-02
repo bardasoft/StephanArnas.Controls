@@ -37,6 +37,7 @@
                     </Border>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
+            
         </FlexLayout>
         
     </common:LabelBase.View>
