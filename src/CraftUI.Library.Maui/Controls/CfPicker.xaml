@@ -3,9 +3,8 @@
 <common:LabelBase 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="CraftUI.Library.Maui.Controls.CfPicker"
     xmlns:common="clr-namespace:CraftUI.Library.Maui.Common"
-    x:Name="CfPickerRoot">
+    x:Class="CraftUI.Library.Maui.Controls.CfPicker">
     
     <common:LabelBase.Resources>
         <Style x:Key="PickerLabel" TargetType="Picker">
@@ -19,13 +18,11 @@
     </common:LabelBase.Resources>
     
     <common:LabelBase.View>
-        <Picker 
-            x:Name="Element" 
-            ItemsSource="{Binding ItemsSource, Source={x:Reference CfPickerRoot}}"
-            SelectedItem="{Binding SelectedItem, Source={x:Reference CfPickerRoot}, Mode=TwoWay}"
-            ItemDisplayBinding="{Binding DisplayValue}"
-            Style="{StaticResource PickerLabel}" >
+        <Picker x:Name="Element" 
+                Style="{StaticResource PickerLabel}" >
+            <Picker.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnPickerTapped" />
+            </Picker.GestureRecognizers>
         </Picker>
     </common:LabelBase.View>
-    
 </common:LabelBase>

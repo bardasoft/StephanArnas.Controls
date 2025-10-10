@@ -6,36 +6,38 @@
     xmlns:base="clr-namespace:CraftUI.Demo.Presentation.Common"
     xmlns:page="clr-namespace:CraftUI.Demo.Presentation.Pages.Controls.Pickers"
     xmlns:controls="clr-namespace:CraftUI.Library.Maui.Controls;assembly=CraftUI.Library.Maui"
-    Title="Picker Multiple Selection"
+    Title="Picker Demo"
     x:DataType="page:PickerPageViewModel"
-    x:Class="CraftUI.Demo.Presentation.Pages.Controls.Pickers.PickerMultipleSelectionPage">
+    x:Class="CraftUI.Demo.Presentation.Pages.Controls.Pickers.MultiPickerPopupPage">
 
-    <Grid RowDefinitions="*,Auto">
+    <Grid RowDefinitions="*,Auto" >
         <ScrollView>
             <VerticalStackLayout
                 Margin="16, 32"
                 Spacing="25">
-
-                <controls:CfPickerMultipleSelection
+                
+                <controls:CfMultiPickerPopup
                     Label="Country"
                     SelectedItems="{Binding SelectedCountries, Mode=TwoWay}"
                     SelectionChangedCommand="{Binding CountriesChangedCommand}"
-                    ItemsSource="{Binding CountriesLoader.Result}"
-                    IsLoading="{Binding CountriesLoader.ShowLoader}" />
-
+                    ItemsSource="{Binding CountriesLoader.Result}" 
+                    ItemDisplay="{x:Static page:PickerPageViewModel.CountryDisplayProperty}"
+                    IsLoading="{Binding CountriesLoader.ShowLoader}"
+                    />
+                
             </VerticalStackLayout>
         </ScrollView>
-
+        
         <VerticalStackLayout Grid.Row="1" Style="{StaticResource BottomElementVerticalStackLayout}">
-            <Button Command="{Binding ResetCommand}"
-                    Style="{StaticResource FilledPrimaryButton}"
+            <Button Command="{Binding ResetCommand}" 
+                    Style="{StaticResource FilledPrimaryButton}" 
                     Text="Reset" />
-
-            <Button Command="{Binding ShowSelectedItemsCommand}"
-                    Style="{StaticResource FilledPrimaryButton}"
+            
+            <Button Command="{Binding ShowSelectedItemsCommand}" 
+                    Style="{StaticResource FilledPrimaryButton}" 
                     Text="Show Selected Items" />
         </VerticalStackLayout>
 
     </Grid>
-
+    
 </base:ContentPageBase>

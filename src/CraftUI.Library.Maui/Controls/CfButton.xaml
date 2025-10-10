@@ -5,8 +5,7 @@
     xmlns:ccb="clr-namespace:CraftUI.Library.Maui.Controls"
     xmlns:progressBars="clr-namespace:CraftUI.Library.Maui.Controls.ProgressBars"
     x:Class="CraftUI.Library.Maui.Controls.CfButton"
-    x:DataType="ccb:CfButton"
-    x:Name="This">
+    x:DataType="ccb:CfButton">
     
     <Button
         x:Name="Button"

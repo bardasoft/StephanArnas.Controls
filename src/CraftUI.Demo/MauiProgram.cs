@@ -3,6 +3,7 @@ using CraftUI.Library.Maui;
 using CraftUI.Demo.Services;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Handlers;
 using CraftUI.Demo.Presentation.Common;
 using CraftUI.Demo.Presentation.Pages.Controls;
 using CraftUI.Demo.Presentation.Pages.Controls.Buttons;
@@ -12,7 +13,6 @@ using CraftUI.Demo.Presentation.Pages.Controls.Pickers;
 using CraftUI.Demo.Presentation.Pages.Controls.ProgressBars;
 using CraftUI.Demo.Presentation.Pages.Settings;
 using CraftUI.Demo.Presentation.Pages.UseCases;
-using Microsoft.Maui.Controls.Shapes;
 
 namespace CraftUI.Demo;
 
@@ -23,8 +23,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseCraftUi()
-            .UseMauiCommunityToolkit(ConfigurePopup)
+            .AddBlogComponents()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -35,42 +35,82 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        builder.Services
-            .AddInfrastructure()
-            .AddServices();
+        builder.Services.AddInfrastructure();
+        builder.Services.AddServices();
 
-        builder.Services
-            .AddTransient<UseCasesList, UseCasesListViewModel>()
-            .AddTransient<ControlsList, ControlsListViewModel>()
-            .AddTransient<SettingsPage, SettingsPageViewModel>()
-            .AddTransientWithShellRoute<ButtonPage, ButtonPageViewModel>(RouteConstants.ButtonPage)
-            .AddTransientWithShellRoute<EntryPage, EntryPageViewModel>(RouteConstants.EntryPage)
-            .AddTransientWithShellRoute<DatePickerPage, DatePickerPageViewModel>(RouteConstants.DatePickerPage)
-            .AddTransientWithShellRoute<PickerPage, PickerPageViewModel>(RouteConstants.PickerPage)
-            .AddTransientWithShellRoute<PickerSingleSelectionPage, PickerPageViewModel>(RouteConstants.PickerPopupPage)
-            .AddTransientWithShellRoute<PickerMultipleSelectionPage, PickerPageViewModel>(RouteConstants.MultiPickerPopupPage)
-            .AddTransientWithShellRoute<ProgressBarPage, ProgressBarPageViewModel>(RouteConstants.ProgressBarPage);
+        ApplyStyleCustomization();
         
+        // Register your pages.
+        builder.Services.AddTransient<UseCasesList, UseCasesListViewModel>();
+        builder.Services.AddTransientWithShellRoute<ButtonPage, ButtonPageViewModel>(RouteConstants.ButtonPage);
+        builder.Services.AddTransientWithShellRoute<EntryPage, EntryPageViewModel>(RouteConstants.EntryPage);
+        builder.Services.AddTransientWithShellRoute<DatePickerPage, DatePickerPageViewModel>(RouteConstants.DatePickerPage);
+        builder.Services.AddTransientWithShellRoute<PickerPage, PickerPageViewModel>(RouteConstants.PickerPage);
+        builder.Services.AddTransientWithShellRoute<PickerPopupPage, PickerPageViewModel>(RouteConstants.PickerPopupPage);
+        builder.Services.AddTransientWithShellRoute<MultiPickerPopupPage, PickerPageViewModel>(RouteConstants.MultiPickerPopupPage);
+        builder.Services.AddTransientWithShellRoute<ProgressBarPage, ProgressBarPageViewModel>(RouteConstants.ProgressBarPage);
+        
+        builder.Services.AddTransient<ControlsList, ControlsListViewModel>();
+        builder.Services.AddTransient<SettingsPage, SettingsPageViewModel>();
+
         return builder.Build();
     }
-
-    private static void ConfigurePopup(Options options)
+    
+    private static void ApplyStyleCustomization()
     {
-        options.SetPopupDefaults(new DefaultPopupSettings
+        EntryHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
         {
-            CanBeDismissedByTappingOutsideOfPopup = true,
-            Margin = 0,
-            Padding = 0
+#if ANDROID
+        // Remove the underline from the EditText
+        handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#endif
+        });
+        
+        EntryHandler.Mapper.AppendToMapping("SetUpEntry", (handler, _) =>
+        {
+#if ANDROID
+
+#elif IOS || MACCATALYST
+        // Remove outline from the UITextField
+        handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#elif WINDOWS
+
+#endif
+        });
+        
+        PickerHandler.Mapper.AppendToMapping("NoUnderline", (handler, _) =>
+        {
+#if ANDROID
+        // Remove the underline from the Spinner (Picker)
+        handler.PlatformView.Background = null;
+#endif
         });
 
-        options.SetPopupOptionsDefaults(new DefaultPopupOptionsSettings
+        PickerHandler.Mapper.AppendToMapping("SetUpPicker", (handler, _) =>
         {
-            CanBeDismissedByTappingOutsideOfPopup = true,
-            Shape = new RoundRectangle
-            {
-                CornerRadius = new CornerRadius(8),
-                StrokeThickness = 0
-            }
+#if ANDROID
+        // Set the background to transparent
+        handler.PlatformView.Background = null;
+#elif IOS || MACCATALYST
+        // Remove border for the UITextField (Picker)
+        if (handler.PlatformView is UIKit.UITextField textField)
+        {
+            textField.BorderStyle = UIKit.UITextBorderStyle.None;
+        }
+#elif WINDOWS
+
+#endif
+        });
+        
+        DatePickerHandler.Mapper.AppendToMapping("Borderless", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.Background = null;
+#elif IOS || MACCATALYST
+            handler.PlatformView.BackgroundColor = UIKit.UIColor.Clear;
+            handler.PlatformView.Layer.BorderWidth = 0;
+            handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#endif
         });
     }
 }

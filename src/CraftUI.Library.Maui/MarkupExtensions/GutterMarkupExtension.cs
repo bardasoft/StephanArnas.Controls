@@ -4,7 +4,6 @@ public static class GutterSystem
 {
     public static double WidthScreen => DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density;
     public static double HeightScreen => DeviceDisplay.Current.MainDisplayInfo.Height / DeviceDisplay.Current.MainDisplayInfo.Density;
-    public static double PopupMaxHeightScreen => DeviceDisplay.Current.MainDisplayInfo.Height / DeviceDisplay.Current.MainDisplayInfo.Density * 0.7;
 
     private const double DefaultGutter = 2;
     private const double DefaultLeftSmallGutter = 1;
