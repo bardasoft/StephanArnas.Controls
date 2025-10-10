@@ -1,5 +1,5 @@
 using System.Globalization;
-using CraftUI.Library.Maui.Controls.Popups;
+using CraftUI.Library.Maui.Popups;
 
 namespace CraftUI.Library.Maui.Converters;
 
@@ -16,8 +16,10 @@ public class SelectedItemsContainsConverter : IValueConverter
         {
             return false;
         }
-        
-        return popup.SelectedItems?.Contains(value) == true;
+
+        return true;
+
+        //return popup.SelectedItems?.Contains(value) == true;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

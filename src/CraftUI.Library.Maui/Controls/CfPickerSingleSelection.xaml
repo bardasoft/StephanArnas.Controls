@@ -4,7 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:common="clr-namespace:CraftUI.Library.Maui.Common"
-    x:Class="CraftUI.Library.Maui.Controls.CfPickerPopup">
+    x:Class="CraftUI.Library.Maui.Controls.CfPickerSingleSelection"
+    x:Name="CfPickerPopupRoot">
     
     <common:LabelBase.Resources>
         <Style x:Key="LabelLabel" TargetType="Label">
@@ -17,9 +18,15 @@
         </Style>
     </common:LabelBase.Resources>
     
+    <common:LabelBase.GestureRecognizers>
+        <TapGestureRecognizer Tapped="OpenSelectionPopup_OnTapped"/>
+    </common:LabelBase.GestureRecognizers>
+    
     <common:LabelBase.View>
-        <Label 
-            Style="{StaticResource LabelLabel}" 
-            x:Name="Element" />
+        <Label
+            Text="{Binding SelectedItem.DisplayValue, Source={x:Reference CfPickerPopupRoot}}"
+            Style="{StaticResource LabelLabel}">
+        </Label>
     </common:LabelBase.View>
+    
 </common:LabelBase>

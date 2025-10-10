@@ -6,26 +6,28 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#4F46E5</Color> <!-- Primary500 -->
-    <Color x:Key="PrimaryDark">#818CF8</Color> <!-- Primary600 -->
-    <Color x:Key="Secondary">#9333EA</Color>
-    <Color x:Key="SecondaryDark">#C084FC</Color>
+    <!-- Light -->
     
-    <Color x:Key="Danger">#E00034</Color>
-    <Color x:Key="Success">#528922</Color>
-    <Color x:Key="Warning">#DD732D</Color>
-
-    <Color x:Key="White">White</Color>
-    <Color x:Key="Black">Black</Color>
-    <Color x:Key="Magenta">#D600AA</Color>
-    <Color x:Key="MidnightBlue">#190649</Color>
-    <Color x:Key="OffBlack">#1f1f1f</Color>
-
-    <Color x:Key="PageBackground">#F8FAFC</Color>
-    <Color x:Key="PageBackgroundDark">#0e0e0e</Color>
-    <Color x:Key="Surface">White</Color>
-    <Color x:Key="SurfaceDark">Black</Color>
-
+    <Color x:Key="Surface">#ffffff</Color>
+    <Color x:Key="PageBackground">#efefef</Color>
+    
+    <Color x:Key="Primary">#10b981</Color><!-- Tailwind emerald-500 -->
+    <Color x:Key="Danger">#ef4444</Color><!-- Tailwind red-500 -->
+    <Color x:Key="Success">#16a34a</Color><!-- Tailwind green-600 -->
+    <Color x:Key="Warning">#f59e0b</Color><!-- Tailwind amber-500 -->
+    <Color x:Key="Info">#0ea5e9</Color><!-- Tailwind sky-500 -->
+    
+    <!-- Dark -->
+    
+    <Color x:Key="SurfaceDark">#191919</Color>
+    <Color x:Key="PageBackgroundDark">#0d0d0d</Color>
+    
+    <Color x:Key="PrimaryDark">#34d399</Color><!-- Tailwind emerald-400 -->
+    <Color x:Key="DangerDark">#f87171</Color><!-- Tailwind red-400 -->
+    <Color x:Key="SuccessDark">#04e072</Color><!-- Tailwind green-400 -->
+    <Color x:Key="WarningDark">#ffba00</Color><!-- Tailwind amber-400 -->
+    <Color x:Key="InfoDark">#00bcff</Color><!-- Tailwind sky-400 -->
+    
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>
@@ -36,28 +38,17 @@
     <Color x:Key="Gray950">#141414</Color>
     
     <!-- Primary Color Scale (Tailwind Emerald) -->
-    <Color x:Key="Primary50">#EEF2FF</Color>
-    <Color x:Key="Primary100">#E0E7FF</Color>
-    <Color x:Key="Primary200">#C7D2FE</Color>
-    <Color x:Key="Primary300">#A5B4FC</Color>
-    <Color x:Key="Primary400">#818CF8</Color>
-    <Color x:Key="Primary500">#6366F1</Color>
-    <Color x:Key="Primary600">#4F46E5</Color>
-    <Color x:Key="Primary700">#4338CA</Color>
-    <Color x:Key="Primary800">#3730A3</Color>
-    <Color x:Key="Primary900">#312E81</Color>
-    <Color x:Key="Primary950">#1E1B4B</Color>
     
-    <Color x:Key="Secondary50">#FAF5FF</Color>
-    <Color x:Key="Secondary100">#F3E8FF</Color>
-    <Color x:Key="Secondary200">#E9D5FF</Color>
-    <Color x:Key="Secondary300">#D8B4FE</Color>
-    <Color x:Key="Secondary400">#C084FC</Color>
-    <Color x:Key="Secondary500">#A855F7</Color>
-    <Color x:Key="Secondary600">#9333EA</Color>
-    <Color x:Key="Secondary700">#7E22CE</Color>
-    <Color x:Key="Secondary800">#6D28D9</Color>
-    <Color x:Key="Secondary900">#581C87</Color>
-    <Color x:Key="Secondary950">#3B0764</Color>
+    <Color x:Key="Primary50">#ecfdf5</Color>
+    <Color x:Key="Primary100">#d1fae5</Color>
+    <Color x:Key="Primary200">#a7f3d0</Color>
+    <Color x:Key="Primary300">#6ee7b7</Color>
+    <Color x:Key="Primary400">#34d399</Color>
+    <Color x:Key="Primary500">#10b981</Color>
+    <Color x:Key="Primary600">#059669</Color>
+    <Color x:Key="Primary700">#047857</Color>
+    <Color x:Key="Primary800">#065f46</Color>
+    <Color x:Key="Primary900">#064e3b</Color>
+    <Color x:Key="Primary950">#022c22</Color>
     
 </ResourceDictionary>

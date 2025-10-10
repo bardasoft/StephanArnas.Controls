@@ -8,7 +8,7 @@
     xmlns:controls="clr-namespace:CraftUI.Library.Maui.Controls;assembly=CraftUI.Library.Maui"
     Title="Picker with Popup Demo"
     x:DataType="page:PickerPageViewModel"
-    x:Class="CraftUI.Demo.Presentation.Pages.Controls.Pickers.PickerPopupPage">
+    x:Class="CraftUI.Demo.Presentation.Pages.Controls.Pickers.PickerSingleSelectionPage">
 
     <Grid RowDefinitions="*,Auto" >
         <ScrollView>
@@ -16,29 +16,28 @@
                 Margin="16, 32"
                 Spacing="25">
                 
-                <controls:CfPickerPopup
+                <controls:CfPickerSingleSelection
                     Label="Country"
-                    
                     SelectedItem="{Binding Country}"
                     ItemsSource="{Binding CountriesLoader.Result}" 
-                    ItemDisplay="{x:Static page:PickerPageViewModel.CountryDisplayProperty}"
-                    TapCommand="{Binding CountrySelectedCommand}"
-                    IsLoading="{Binding CountriesLoader.ShowLoader}"/>
+                    SelectionChangedCommand="{Binding CountrySelectedCommand}"
+                    IsLoading="{Binding CountriesLoader.ShowLoader}"
+                    IsSearchVisible="True"/>
                 
-                <controls:CfPickerPopup
+                <controls:CfPickerSingleSelection
                     Label="City"
                     SelectedItem="{Binding City}"
                     ItemsSource="{Binding CitiesLoader.Result}"
-                    ItemDisplay="{x:Static page:PickerPageViewModel.CityDisplayProperty}"
                     IsLoading="{Binding CitiesLoader.ShowLoader}" />
 
             </VerticalStackLayout>
         </ScrollView>
         
         <VerticalStackLayout Grid.Row="1" Style="{StaticResource BottomElementVerticalStackLayout}">
-            <Button Command="{Binding ResetCommand}" 
-                    Style="{StaticResource FilledPrimaryButton}" 
-                    Text="Reset" />
+            <Button 
+                Command="{Binding ResetCommand}" 
+                Style="{StaticResource FilledPrimaryButton}" 
+                Text="Reset" />
         </VerticalStackLayout>
 
     </Grid>

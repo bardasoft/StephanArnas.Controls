@@ -68,9 +68,9 @@ public partial class ControlsListViewModel : ViewModelBase
             new LinkMenuItem("Button", "demo_hand_click.png", RouteConstants.ButtonPage),
             new LinkMenuItem("Entry", "demo_input.png", RouteConstants.EntryPage),
             new LinkMenuItem("Date Picker", "demo_date_picker.png", RouteConstants.DatePickerPage),
-            new LinkMenuItem("Native Picker", "demo_picker.png", RouteConstants.PickerPage),
-            new LinkMenuItem("Popup Picker", "demo_picker.png", RouteConstants.PickerPopupPage),
-            new LinkMenuItem("Mutli Popup Picker", "demo_picker.png", RouteConstants.MultiPickerPopupPage),
+            new LinkMenuItem("Picker Native", "demo_picker.png", RouteConstants.PickerPage),
+            new LinkMenuItem("Picker Single Selection", "demo_picker.png", RouteConstants.PickerPopupPage),
+            new LinkMenuItem("Picker Multiple Selection", "demo_picker.png", RouteConstants.MultiPickerPopupPage),
             new LinkMenuItem("Progress Bar", "demo_progress_bar.png", RouteConstants.ProgressBarPage)
         ];
     }
