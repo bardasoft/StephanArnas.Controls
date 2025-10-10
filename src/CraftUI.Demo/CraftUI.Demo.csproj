@@ -86,7 +86,7 @@
       <MauiXaml Update="Presentation\Pages\UseCases\UseCasesList.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
-      <MauiXaml Update="Presentation\Pages\Controls\Pickers\MultiPickerPopupPage.xaml">
+      <MauiXaml Update="Presentation\Pages\Controls\Pickers\PickerMultipleSelectionPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
@@ -116,7 +116,7 @@
         <DependentUpon>UseCasesList.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Presentation\Pages\Controls\Pickers\MultiPickerPopupPage.xaml.cs">
+      <Compile Update="Presentation\Pages\Controls\Pickers\PickerMultipleSelectionPage.xaml.cs">
         <DependentUpon>MultiPickerPopupPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>

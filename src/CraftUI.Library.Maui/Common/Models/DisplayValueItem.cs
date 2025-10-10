@@ -10,11 +10,16 @@ public class DisplayValueItem(string displayValue, string value, object? valueOb
     
     public T? GetValueObjectDeserialized<T>()
     {
-        if (string.IsNullOrEmpty(ValueObject?.ToString()))
+        if (ValueObject is T value)
         {
-            return default;
+            return value;
         }
-        
-        return JsonSerializer.Deserialize<T>(ValueObject.ToString()!);
+
+        if (ValueObject is string valueString && (valueString.StartsWith('{') || valueString.StartsWith('[')))
+        {
+            return JsonSerializer.Deserialize<T>(ValueObject.ToString()!);
+        }
+
+        return default;
     }
 }

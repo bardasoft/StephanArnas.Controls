@@ -136,9 +136,11 @@ public partial class PickerPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task CountriesChanged()
+    private Task CountriesChanged(IList<DisplayValueItem> selectedItems)
     {
         _logger.LogInformation("CountriesChanged()");
+
+        SelectedCountries = new ObservableCollection<DisplayValueItem>(selectedItems);
 
         return Task.CompletedTask;
     }

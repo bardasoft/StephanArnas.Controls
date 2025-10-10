@@ -9,9 +9,10 @@
     xmlns:template="clr-namespace:CraftUI.Library.Maui.Popups.Templates"
     xmlns:control="clr-namespace:CraftUI.Library.Maui.Controls"
     xmlns:model="clr-namespace:CraftUI.Library.Maui.Common.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     HorizontalOptions="Fill"
     VerticalOptions="End"
-    RowDefinitions="Auto,Auto,*,Auto"
+    RowDefinitions="Auto,Auto,*,Auto,Auto"
     MinimumWidthRequest="{x:Static markup:GutterSystem.WidthScreen}"
     BackgroundColor="{AppThemeBinding 
     Light={StaticResource PageBackground}, 
@@ -30,7 +31,8 @@
                         <VisualState Name="Normal" />
                         <VisualState Name="Selected">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="{AppThemeBinding
+                                <Setter Property="BackgroundColor"
+                                        Value="{AppThemeBinding
                                     Light={StaticResource Gray100}, 
                                     Dark={StaticResource Gray900}}" />
                             </VisualState.Setters>
@@ -40,17 +42,17 @@
             </Setter>
         </Style>
     </Grid.Resources>
-        
+
     <template:HeaderTemplatePopup
         Title="{Binding Title}"
         CloseCommand="{Binding CloseCommand}" />
 
-    <control:CfSearch 
+    <control:CfSearch
         Grid.Row="1"
         Search="{Binding Search}"
         SearchUpdatedCommand="{Binding SearchUpdatedCommand}"
         IsVisible="{Binding IsSearchVisible}" />
-    
+
     <CollectionView
         Grid.Row="2"
         ItemSizingStrategy="MeasureAllItems"
@@ -64,17 +66,28 @@
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:DisplayValueItem">
                 <Grid Style="{StaticResource CollectionViewItemSelectionPopupGrid}">
-                    <Label 
+                    <Label
                         Text="{Binding DisplayValue}"
                         FontSize="16" />
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
-    
-    <Button 
+
+    <Button
         Grid.Row="3"
-        Text="Valider"
-        Command="{Binding ItemSelectedCommand}"/>
+        Text="Validate"
+        Command="{Binding ValidateSelectedItemsCommand}"
+        Style="{StaticResource FilledPrimaryButton}"
+        Margin="16,16,16,8"
+        IsVisible="{Binding ItemsSource, Converter={toolkit:IsListNotNullOrEmptyConverter}}" />
+
+    <Button
+        Grid.Row="4"
+        Text="Reset"
+        Command="{Binding ResetSelectedItemsCommand}"
+        Style="{StaticResource OutlinePrimaryButton}"
+        Margin="16,8,16,16"
+        IsVisible="{Binding ItemsSource, Converter={toolkit:IsListNotNullOrEmptyConverter}}" />
 
 </Grid>

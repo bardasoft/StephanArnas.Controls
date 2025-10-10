@@ -25,10 +25,7 @@ public partial class CfCollectionMultiSelectionPopupViewModel(IPopupService popu
         get => _selectedItemsInternal.OfType<DisplayValueItem>().ToList();
         set
         {
-            // On réinitialise la collection interne avec les nouveaux éléments
-            _selectedItemsInternal = value != null
-                ? new ObservableCollection<object>(value.Cast<object>())
-                : new ObservableCollection<object>();
+            _selectedItemsInternal = value != null ? new ObservableCollection<object>(value) : [];
 
             OnPropertyChanged(); // notifie si tu es en MVVM
         }
@@ -47,7 +44,8 @@ public partial class CfCollectionMultiSelectionPopupViewModel(IPopupService popu
     {
         _isInitialized = true;
         
-        if (query.TryGetValue(nameof(SelectedItems), out var selectedItemsObject) && selectedItemsObject is IList<DisplayValueItem> selectedItems)
+        if (query.TryGetValue(nameof(SelectedItems), out var selectedItemsObject) && 
+            selectedItemsObject is IList<DisplayValueItem> selectedItems)
         {
             foreach (var selectedItem in selectedItems)
             {
@@ -97,10 +95,21 @@ public partial class CfCollectionMultiSelectionPopupViewModel(IPopupService popu
     }
 
     [RelayCommand]
-    private async Task ItemSelected()
+    private async Task ValidateSelectedItems()
     {
         if (!_isInitialized)
         {
+            await PopupService.ClosePopupAsync(Shell.Current, SelectedItems).ConfigureAwait(false);
+        }
+    }
+
+    [RelayCommand]
+    private async Task ResetSelectedItems()
+    {
+        if (!_isInitialized)
+        {
+            SelectedItemsInternal.Clear();
+            SelectedItems.Clear();
             await PopupService.ClosePopupAsync(Shell.Current, SelectedItems).ConfigureAwait(false);
         }
     }

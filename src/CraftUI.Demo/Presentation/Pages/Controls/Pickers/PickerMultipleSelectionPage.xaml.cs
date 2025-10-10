@@ -1,8 +1,8 @@
 namespace CraftUI.Demo.Presentation.Pages.Controls.Pickers;
 
-public partial class PickerPopupPage
+public partial class PickerMultipleSelectionPage
 {
-    public PickerPopupPage(PickerPageViewModel viewModel)
+    public PickerMultipleSelectionPage(PickerPageViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;

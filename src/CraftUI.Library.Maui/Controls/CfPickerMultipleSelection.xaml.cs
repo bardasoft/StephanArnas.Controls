@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui;
 using CraftUI.Library.Maui.Common.Models;
@@ -9,8 +8,8 @@ namespace CraftUI.Library.Maui.Controls;
 
 public partial class CfPickerMultipleSelection
 {
-    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList<DisplayValueItem>), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(nameof(SelectedItems), typeof(IList<DisplayValueItem>), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemsPropertyChanged, coerceValue: CoerceSelectedItems, defaultValueCreator: DefaultValueCreator);
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList<DisplayValueItem>), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.OneWay, propertyChanged: ItemsSourceChanged);
+    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(nameof(SelectedItems), typeof(IList<DisplayValueItem>), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemsPropertyChanged);
     public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(CfPickerMultipleSelection));
     public static readonly BindableProperty IsSearchVisibleProperty = BindableProperty.Create(nameof(IsSearchVisible), typeof(bool), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.OneWay);
     
@@ -53,47 +52,25 @@ public partial class CfPickerMultipleSelection
         ActionIconCommand ??= new Command(() => OpenSelectionPopup_OnTapped(sender: null, e: new TappedEventArgs(null)));
     }
     
-    private static void SelectedItemsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerMultipleSelection)bindable).UpdateItemsSourceView();
+    
+    public void UpdateItemsSourceView()
     {
-        var selectableItemsView = (CfPickerMultipleSelection)bindable;
-        var oldSelection = (IList<DisplayValueItem>)oldValue;
-        var newSelection = (IList<DisplayValueItem>)newValue;
-
-        selectableItemsView.SelectedItemsPropertyChanged(oldSelection, newSelection);
-    }
-
-    private static object CoerceSelectedItems(BindableObject bindable, object? value)
-    {
-        if (value == null)
-        {
-            return new SelectionList((CfPickerMultipleSelection)bindable);
-        }
-
-        if (value is SelectionList)
-        {
-            return value;
-        }
-
-        return new SelectionList((CfPickerMultipleSelection)bindable, value as IList<DisplayValueItem>);
-    }
-
-    private static IList<DisplayValueItem> DefaultValueCreator(BindableObject bindable)
-    {
-        return new SelectionList((CfPickerMultipleSelection)bindable);
-    }
-
-    internal void SelectedItemsPropertyChanged(IList<DisplayValueItem> oldSelection, IList<DisplayValueItem> newSelection)
-    {
-        OnPropertyChanged(SelectedItemsProperty.PropertyName);
-        
-        /*if (_isPopupOpened)
+        if (_isPopupOpened)
         {
             // The popup is open, close and open again to refresh the collection
             IPlatformApplication.Current?.Services.GetService<IPopupService>()?.ClosePopupAsync(Shell.Current);
             OpenSelectionPopup_OnTapped(sender: null, e: new TappedEventArgs(null));
-        }*/
+        }
     }
     
+    private static void SelectedItemsPropertyChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerMultipleSelection)bindable).UpdateSelectedItemsView();
+    
+    public void UpdateSelectedItemsView()
+    {
+        OnPropertyChanged(nameof(SelectedItems));
+    }
+
     private async void OpenSelectionPopup_OnTapped(object? sender, TappedEventArgs e)
     {
         var popupService = IPlatformApplication.Current?.Services.GetService<IPopupService>();

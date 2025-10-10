@@ -8,7 +8,7 @@
     xmlns:controls="clr-namespace:CraftUI.Library.Maui.Controls;assembly=CraftUI.Library.Maui"
     Title="Picker with Popup Demo"
     x:DataType="page:PickerPageViewModel"
-    x:Class="CraftUI.Demo.Presentation.Pages.Controls.Pickers.PickerPopupPage">
+    x:Class="CraftUI.Demo.Presentation.Pages.Controls.Pickers.PickerSingleSelectionPage">
 
     <Grid RowDefinitions="*,Auto" >
         <ScrollView>
