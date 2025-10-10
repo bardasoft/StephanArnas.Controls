@@ -2,25 +2,23 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Extensions;
-using CommunityToolkit.Maui.Views;
 using CraftUI.Library.Maui.Common;
 using CraftUI.Library.Maui.Common.Extensions;
-using CraftUI.Library.Maui.Controls.Popups;
-using Microsoft.Maui.Platform;
+using CraftUI.Library.Maui.Popups;
 
 namespace CraftUI.Library.Maui.Controls;
 
-public partial class CfMultiPickerPopup
+public partial class CfPickerMultipleSelection
 {
     private CfCollectionMultiSelectionPopup? _collectionPopup;
     private readonly TapGestureRecognizer _tapGestureRecognizer;
 
-    public static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(CfMultiPickerPopup));
-    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(nameof(SelectedItems), typeof(IList<object>), typeof(CfMultiPickerPopup), defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemsPropertyChanged, coerceValue: CoerceSelectedItems, defaultValueCreator: DefaultValueCreator);
-    public static readonly BindableProperty ItemDisplayProperty = BindableProperty.Create(nameof(ItemDisplay), typeof(string), typeof(CfMultiPickerPopup), defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty DefaultValueProperty = BindableProperty.Create(nameof(DefaultValue), typeof(string), typeof(CfMultiPickerPopup), defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(CfMultiPickerPopup), propertyChanged: ItemsSourceChanged, defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(CfMultiPickerPopup));
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(CfPickerMultipleSelection));
+    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(nameof(SelectedItems), typeof(IList<object>), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemsPropertyChanged, coerceValue: CoerceSelectedItems, defaultValueCreator: DefaultValueCreator);
+    public static readonly BindableProperty ItemDisplayProperty = BindableProperty.Create(nameof(ItemDisplay), typeof(string), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.OneWay);
+    public static readonly BindableProperty DefaultValueProperty = BindableProperty.Create(nameof(DefaultValue), typeof(string), typeof(CfPickerMultipleSelection), defaultBindingMode: BindingMode.OneWay);
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(CfPickerMultipleSelection), propertyChanged: ItemsSourceChanged, defaultBindingMode: BindingMode.OneWay);
+    public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(CfPickerMultipleSelection));
     
     public ObservableCollection<string> SelectedStrings { get; set; }
 
@@ -60,7 +58,7 @@ public partial class CfMultiPickerPopup
         set => SetValue(SelectionChangedCommandProperty, value);
     }
 
-    public CfMultiPickerPopup()
+    public CfPickerMultipleSelection()
     {
         InitializeComponent();
         
@@ -80,7 +78,7 @@ public partial class CfMultiPickerPopup
         ActionIconCommand ??= new Command(() => OnTapped(null, EventArgs.Empty));
     }
     
-    private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue) => ((CfMultiPickerPopup)bindable).UpdateItemsSourceView();
+    private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerMultipleSelection)bindable).UpdateItemsSourceView();
 
     private async void UpdateItemsSourceView()
     {
@@ -96,7 +94,7 @@ public partial class CfMultiPickerPopup
     
     private static void SelectedItemsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        var selectableItemsView = (CfMultiPickerPopup)bindable;
+        var selectableItemsView = (CfPickerMultipleSelection)bindable;
         var oldSelection = (IList<object>)oldValue;
         var newSelection = (IList<object>)newValue;
 
@@ -107,7 +105,7 @@ public partial class CfMultiPickerPopup
     {
         if (value == null)
         {
-            return new SelectionList((CfMultiPickerPopup)bindable);
+            return new SelectionList((CfPickerMultipleSelection)bindable);
         }
 
         if (value is SelectionList)
@@ -115,12 +113,12 @@ public partial class CfMultiPickerPopup
             return value;
         }
 
-        return new SelectionList((CfMultiPickerPopup)bindable, value as IList<object>);
+        return new SelectionList((CfPickerMultipleSelection)bindable, value as IList<object>);
     }
 
     private static object DefaultValueCreator(BindableObject bindable)
     {
-        return new SelectionList((CfMultiPickerPopup)bindable);
+        return new SelectionList((CfPickerMultipleSelection)bindable);
     }
 
     internal void SelectedItemsPropertyChanged(IList<object> oldSelection, IList<object> newSelection)

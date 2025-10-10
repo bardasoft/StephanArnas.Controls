@@ -1,23 +1,22 @@
 using System.Collections;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Extensions;
-using CommunityToolkit.Maui.Views;
 using CraftUI.Library.Maui.Common.Extensions;
-using CraftUI.Library.Maui.Controls.Popups;
+using CraftUI.Library.Maui.Popups;
 
 namespace CraftUI.Library.Maui.Controls;
 
-public partial class CfPickerPopup
+public partial class CfPickerSingleSelection
 {
     private CfCollectionSingleSelectionPopup? _collectionPopup;
     private readonly TapGestureRecognizer _tapGestureRecognizer;
     
-    public static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(CfPickerPopup));
-    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(CfPickerPopup), propertyChanged: SelectedItemChanged, defaultBindingMode: BindingMode.TwoWay);
-    public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(CfPickerPopup), defaultBindingMode: BindingMode.TwoWay);
-    public static readonly BindableProperty ItemDisplayProperty = BindableProperty.Create(nameof(ItemDisplay), typeof(string), typeof(CfPickerPopup), defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty DefaultValueProperty = BindableProperty.Create(nameof(DefaultValue), typeof(string), typeof(CfPickerPopup), propertyChanged: DefaultValueChanged, defaultBindingMode: BindingMode.OneWay);
-    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(CfPickerPopup), propertyChanged: ItemsSourceChanged, defaultBindingMode: BindingMode.OneWay);
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(CfPickerSingleSelection));
+    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(CfPickerSingleSelection), propertyChanged: SelectedItemChanged, defaultBindingMode: BindingMode.TwoWay);
+    public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(CfPickerSingleSelection), defaultBindingMode: BindingMode.TwoWay);
+    public static readonly BindableProperty ItemDisplayProperty = BindableProperty.Create(nameof(ItemDisplay), typeof(string), typeof(CfPickerSingleSelection), defaultBindingMode: BindingMode.OneWay);
+    public static readonly BindableProperty DefaultValueProperty = BindableProperty.Create(nameof(DefaultValue), typeof(string), typeof(CfPickerSingleSelection), propertyChanged: DefaultValueChanged, defaultBindingMode: BindingMode.OneWay);
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(CfPickerSingleSelection), propertyChanged: ItemsSourceChanged, defaultBindingMode: BindingMode.OneWay);
 
     public IList? ItemsSource
     {
@@ -55,7 +54,7 @@ public partial class CfPickerPopup
         set => SetValue(TitleProperty, value);
     }
 
-    public CfPickerPopup()
+    public CfPickerSingleSelection()
     {
         InitializeComponent();
         
@@ -90,9 +89,9 @@ public partial class CfPickerPopup
         ActionIconCommand ??= new Command(() => OnTapped(null, EventArgs.Empty));
     }
     
-    private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerPopup)bindable).UpdateSelectedItemView();
-    private static void DefaultValueChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerPopup)bindable).UpdateDefaultValueView();
-    private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerPopup)bindable).UpdateItemsSourceView();
+    private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerSingleSelection)bindable).UpdateSelectedItemView();
+    private static void DefaultValueChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerSingleSelection)bindable).UpdateDefaultValueView();
+    private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue) => ((CfPickerSingleSelection)bindable).UpdateItemsSourceView();
 
     private void UpdateSelectedItemView()
     {

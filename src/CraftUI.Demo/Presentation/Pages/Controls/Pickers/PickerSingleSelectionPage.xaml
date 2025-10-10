@@ -16,7 +16,7 @@
                 Margin="16, 32"
                 Spacing="25">
                 
-                <controls:CfPickerPopup
+                <controls:CfPickerSingleSelection
                     Label="Country"
                     
                     SelectedItem="{Binding Country}"
@@ -25,7 +25,7 @@
                     TapCommand="{Binding CountrySelectedCommand}"
                     IsLoading="{Binding CountriesLoader.ShowLoader}"/>
                 
-                <controls:CfPickerPopup
+                <controls:CfPickerSingleSelection
                     Label="City"
                     SelectedItem="{Binding City}"
                     ItemsSource="{Binding CitiesLoader.Result}"

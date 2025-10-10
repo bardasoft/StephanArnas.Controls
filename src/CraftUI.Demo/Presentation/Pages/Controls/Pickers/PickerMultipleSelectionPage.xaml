@@ -16,7 +16,7 @@
                 Margin="16, 32"
                 Spacing="25">
                 
-                <controls:CfMultiPickerPopup
+                <controls:CfPickerMultipleSelection
                     Label="Country"
                     SelectedItems="{Binding SelectedCountries, Mode=TwoWay}"
                     SelectionChangedCommand="{Binding CountriesChangedCommand}"
