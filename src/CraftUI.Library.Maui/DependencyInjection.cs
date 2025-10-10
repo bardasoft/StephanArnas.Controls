@@ -5,7 +5,7 @@ namespace CraftUI.Library.Maui;
 
 public static class DependencyInjection
 {
-    public static MauiAppBuilder AddBlogComponents(this MauiAppBuilder builder)
+    public static MauiAppBuilder UseMauiCraftUi(this MauiAppBuilder builder)
     {
         builder.UseSkiaSharp();
         

@@ -44,7 +44,7 @@ public partial class CfCollectionSingleSelectionPopup
         InitializeComponent();
         
         var tapped = new TapGestureRecognizer();
-        tapped.Tapped += (_, _) => Close();
+        tapped.Tapped += async (_, _) => await CloseAsync();
         CloseImage.GestureRecognizers.Add(tapped); 
     }
 
@@ -86,10 +86,10 @@ public partial class CfCollectionSingleSelectionPopup
             });
             
             var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped += (s, _) =>
+            tapGestureRecognizer.Tapped += async (s, _) =>
             {
                 SelectedItem = ((ContentView)s!).BindingContext;
-                Close();
+                await CloseAsync();
             };
             contentView.GestureRecognizers.Add(tapGestureRecognizer);
 

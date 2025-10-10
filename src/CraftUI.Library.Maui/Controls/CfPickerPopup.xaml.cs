@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Windows.Input;
+using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using CraftUI.Library.Maui.Common.Extensions;
 using CraftUI.Library.Maui.Controls.Popups;
@@ -64,7 +65,7 @@ public partial class CfPickerPopup
         GestureRecognizers.Add(_tapGestureRecognizer);
     }
     
-    private void OnTapped(object? sender, EventArgs e)
+    private async void OnTapped(object? sender, EventArgs e)
     {
         _collectionPopup = new CfCollectionSingleSelectionPopup
         {
@@ -78,7 +79,7 @@ public partial class CfPickerPopup
         _collectionPopup.SetBinding(CfCollectionSingleSelectionPopup.SelectedItemProperty, path: nameof(SelectedItem));
         _collectionPopup.SetBinding(CfCollectionSingleSelectionPopup.ItemsSourceProperty, path: nameof(ItemsSource));
 
-        Shell.Current.ShowPopup(_collectionPopup);
+        await Shell.Current.ShowPopupAsync(_collectionPopup);
     }
     
     protected override void OnBindingContextChanged()

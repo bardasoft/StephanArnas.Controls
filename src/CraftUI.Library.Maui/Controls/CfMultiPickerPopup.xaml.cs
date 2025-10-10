@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using CraftUI.Library.Maui.Common;
 using CraftUI.Library.Maui.Common.Extensions;
@@ -155,7 +156,7 @@ public partial class CfMultiPickerPopup
         InvalidateSurfaceForCanvasView();
     }
     
-    private void OnTapped(object? sender, EventArgs e)
+    private async void OnTapped(object? sender, EventArgs e)
     {
         _collectionPopup = new CfCollectionMultiSelectionPopup
         {
@@ -174,6 +175,6 @@ public partial class CfMultiPickerPopup
         _collectionPopup.SetBinding(CfCollectionMultiSelectionPopup.ItemsSourceProperty, path: nameof(ItemsSource));
         _collectionPopup.SetBinding(CfCollectionMultiSelectionPopup.SelectedItemsProperty, path: nameof(SelectedItems));
 
-        Shell.Current.ShowPopup(_collectionPopup);
+        await Shell.Current.ShowPopupAsync(_collectionPopup);
     }
 }

@@ -45,7 +45,7 @@ public partial class CfCollectionMultiSelectionPopup
         InitializeComponent();
 
         var tapped = new TapGestureRecognizer();
-        tapped.Tapped += (_, _) => Close();
+        tapped.Tapped += async (_, _) => await CloseAsync();
         CloseImage.GestureRecognizers.Add(tapped);
     }
 
